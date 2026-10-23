@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>git20261023_实验甲_github在kali Linux系统下的使用</title>
+<style>
+  :root{
+    --pink:#f7b7cd;
+    --blue:#a8cdf0;
+    --ink:#2b2b3c;
+    --code-bg:#1e1e2e;
+    --code-fg:#a6e3a1;
+  }
+  *{box-sizing:border-box;}
+  body{
+    margin:0;
+    font-family:"Microsoft YaHei","PingFang SC",sans-serif;
+    background:linear-gradient(135deg,#eaf3ff 0%,#fdeef4 100%);
+    color:var(--ink);
+    line-height:1.7;
+    padding:24px;
+  }
+  .wrap{max-width:960px;margin:0 auto;}
+  header{
+    background:linear-gradient(120deg,var(--pink),var(--blue));
+    border-radius:18px;
+    padding:26px 28px;
+    color:#fff;
+    box-shadow:0 8px 24px rgba(168,205,240,.35);
+  }
+  header h1{margin:0 0 6px;font-size:26px;}
+  header p{margin:0;font-size:14px;opacity:.95;}
+
+  .card{
+    background:#fff;
+    border-radius:16px;
+    padding:20px 24px;
+    margin-top:22px;
+    box-shadow:0 4px 16px rgba(180,200,230,.22);
+  }
+  .card h2{
+    font-size:20px;
+    margin:0 0 14px;
+    padding-left:12px;
+    border-left:6px solid var(--pink);
+  }
+  .card h3{
+    font-size:16px;
+    margin:20px 0 8px;
+    color:#4a5a7a;
+  }
+  .card h3::before{content:"▸ ";color:var(--blue);}
+
+  /* 命令框 */
+  .box{
+    background:var(--code-bg);
+    color:var(--code-fg);
+    border-radius:10px;
+    padding:12px 16px;
+    margin:10px 0;
+    font-family:"Consolas","Monaco","Courier New",monospace;
+    font-size:14px;
+    white-space:pre-wrap;
+    word-break:break-all;
+    border-left:4px solid var(--blue);
+    position:relative;
+  }
+  .box::before{
+    content:"$";
+    color:var(--pink);
+    margin-right:8px;
+    font-weight:bold;
+  }
+  .box.multi::before{content:"";}
+  .box.noshell{background:#2a2a3d;}
+
+  /* 提示框 */
+  .tip{
+    background:#eef7ff;
+    border-left:5px solid var(--blue);
+    padding:10px 16px;
+    border-radius:8px;
+    margin:10px 0;
+    font-size:14px;
+  }
+  .warn{
+    background:#fff6ea;
+    border-left:5px solid #f5b971;
+    padding:10px 16px;
+    border-radius:8px;
+    margin:10px 0;
+    font-size:14px;
+  }
+
+  table{
+    width:100%;
+    border-collapse:collapse;
+    margin:12px 0;
+    font-size:14px;
+  }
+  th,td{
+    border:1px solid #dde7f5;
+    padding:8px 10px;
+    text-align:left;
+  }
+  th{background:#eaf3ff;color:#3b4a68;}
+  tr:nth-child(even){background:#fafcff;}
+
+  code.inline{
+    background:#eaf3ff;
+    color:#2b6cb0;
+    padding:2px 6px;
+    border-radius:5px;
+    font-family:Consolas,monospace;
+  }
+
+  footer{
+    text-align:center;
+    font-size:13px;
+    color:#8a94a8;
+    margin:30px 0 10px;
+  }
+  @media(max-width:600px){
+    body{padding:12px;}
+    header h1{font-size:20px;}
+    .card{padding:16px;}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <header>
+    <h1>2026-10-23 Kali Git / GitHub 学习手册</h1>
+    <p>用户名 Hannam1 · 显示名 Hannam1VM · 仓库 Security-labbb-Hannam1 · 分支 main · Private</p>
+  </header>
+
+  <!-- 模块一 -->
+  <div class="card">
+    <h2>模块一 · 环境配置</h2>
+
+    <h3>配置提交身份</h3>
+    <div class="box multi">git config --global user.name  "Hannam1"
+git config --global user.email "2311347434@qq.com"</div>
+    <div class="tip">验证：<code class="inline">git config --list</code> 或 <code class="inline">git config --global -l</code></div>
+
+    <h3>生成 SSH 密钥（免密）</h3>
+    <div class="box">ssh-keygen -t ed25519 -C "2311347434@qq.com"</div>
+    <div class="warn">三个提示<b>全部直接按回车</b>：保存路径 → 密码 → 确认密码，都留空。</div>
+
+    <h3>查看公钥 / 测试连接</h3>
+    <div class="box">cat ~/.ssh/id_ed25519.pub</div>
+    <div class="box">ssh -T git@github.com</div>
+    <div class="tip">出现 <code class="inline">Hi Hannam1VM! You've successfully authenticated</code> 即成功。</div>
+
+    <h3>设置默认分支名</h3>
+    <div class="box">git config --global init.defaultBranch main</div>
+  </div>
+
+  <!-- 模块二 -->
+  <div class="card">
+    <h2>模块二 · 本地仓库操作</h2>
+
+    <h3>完整初始化流程</h3>
+    <div class="box">mkdir -p ~/security-lab && cd ~/security-lab</div>
+    <div class="box">echo "# 我的实验记录" &gt; README.md</div>
+    <div class="box">git init</div>
+    <div class="box multi">git add .
+git commit -m "init: 实验记录仓库"</div>
+    <div class="box">git remote add origin git@github.com:Hannam1VM/Security-labbb-Hannam1.git</div>
+    <div class="box">git push -u origin main</div>
+
+    <h3>日常三条命令</h3>
+    <div class="box multi">git add .
+git commit -m "描述这次做了什么"
+git push</div>
+
+    <h3>状态与查看</h3>
+    <div class="box multi">git status          # 看当前改动
+git log --oneline   # 看提交历史
+git remote -v       # 查看远程地址
+git branch -M main  # 把当前分支改名为 main</div>
+
+    <h3>同步远程</h3>
+    <div class="box multi">git pull              # 已关联分支时直接用
+git pull origin main  # 首次或未关联时用</div>
+  </div>
+
+  <!-- 模块三 -->
+  <div class="card">
+    <h2>模块三 · 上传与下载完整流程</h2>
+
+    <h3>场景 A：Kali 修改后上传 GitHub</h3>
+    <div class="box multi">cd ~/security-lab
+git status
+git add .
+git commit -m "更新实验记录"
+git push</div>
+    <div class="tip">出现 <code class="inline">main -&gt; main</code> 即成功，网页刷新可见。</div>
+
+    <h3>场景 B：网页改动后 Kali 同步</h3>
+    <div class="box multi">cd ~/security-lab
+git pull</div>
+
+    <h3>场景 C：新机器完整克隆</h3>
+    <div class="box multi">git clone git@github.com:Hannam1VM/Security-labbb-Hannam1.git
+cd Security-labbb-Hannam1</div>
+
+    <h3>场景 D：只下载单个文件</h3>
+    <div class="box">wget https://raw.githubusercontent.com/Hannam1VM/Security-labbb-Hannam1/main/README.md</div>
+    <div class="tip">raw 地址格式：<code class="inline">raw.githubusercontent.com/用户名/仓库名/分支名/文件路径</code></div>
+  </div>
+
+  <!-- 速查表 -->
+  <div class="card">
+    <h2>命令速查表</h2>
+    <table>
+      <tr><th>分类</th><th>命令</th><th>用途</th></tr>
+      <tr><td>配置</td><td>git config --global user.name</td><td>设置用户名</td></tr>
+      <tr><td>配置</td><td>git config --global user.email</td><td>设置邮箱</td></tr>
+      <tr><td>密钥</td><td>ssh-keygen -t ed25519 -C</td><td>生成 SSH 密钥</td></tr>
+      <tr><td>密钥</td><td>cat ~/.ssh/id_ed25519.pub</td><td>查看公钥</td></tr>
+      <tr><td>测试</td><td>ssh -T git@github.com</td><td>测试认证</td></tr>
+      <tr><td>建库</td><td>git init</td><td>初始化仓库</td></tr>
+      <tr><td>提交</td><td>git add . / git commit -m</td><td>暂存并提交</td></tr>
+      <tr><td>远程</td><td>git remote add origin</td><td>关联远程</td></tr>
+      <tr><td>推送</td><td>git push -u origin main</td><td>首次推送</td></tr>
+      <tr><td>同步</td><td>git pull</td><td>拉取远程改动</td></tr>
+      <tr><td>克隆</td><td>git clone 地址</td><td>完整下载仓库</td></tr>
+    </table>
+  </div>
+
+  <!-- 报错 -->
+  <div class="card">
+    <h2>常见报错速查</h2>
+    <table>
+      <tr><th>报错</th><th>原因</th><th>解决</th></tr>
+      <tr><td>zsh: bad pattern</td><td>粘贴带入 [200~</td><td>删乱码再回车</td></tr>
+      <tr><td>src refspec main does not match any</td><td>本地分支叫 master</td><td>git branch -M main</td></tr>
+      <tr><td>remote origin already exists</td><td>重复添加远程</td><td>git remote set-url</td></tr>
+      <tr><td>failed to push some refs</td><td>远程有新提交</td><td>git pull --rebase</td></tr>
+      <tr><td>Permission denied (publickey)</td><td>公钥没配好</td><td>重做 SSH 步骤</td></tr>
+      <tr><td>Passphrases do not match</td><td>两次密码不一致</td><td>留空直接回车</td></tr>
+    </table>
+  </div>
+
+  <footer>2026-10-23 · 整理自本次实操全过程 · 保存后浏览器打开即可</footer>
+
+</div>
+</body>
+</html>

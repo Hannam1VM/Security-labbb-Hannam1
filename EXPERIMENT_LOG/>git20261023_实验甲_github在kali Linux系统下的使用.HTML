@@ -31,7 +31,6 @@
   }
   header h1{margin:0 0 6px;font-size:26px;}
   header p{margin:0;font-size:14px;opacity:.95;}
-
   .card{
     background:#fff;
     border-radius:16px;
@@ -51,8 +50,6 @@
     color:#4a5a7a;
   }
   .card h3::before{content:"▸ ";color:var(--blue);}
-
-  /* 命令框 */
   .box{
     background:var(--code-bg);
     color:var(--code-fg);
@@ -74,8 +71,6 @@
   }
   .box.multi::before{content:"";}
   .box.noshell{background:#2a2a3d;}
-
-  /* 提示框 */
   .tip{
     background:#eef7ff;
     border-left:5px solid var(--blue);
@@ -92,7 +87,6 @@
     margin:10px 0;
     font-size:14px;
   }
-
   table{
     width:100%;
     border-collapse:collapse;
@@ -106,7 +100,6 @@
   }
   th{background:#eaf3ff;color:#3b4a68;}
   tr:nth-child(even){background:#fafcff;}
-
   code.inline{
     background:#eaf3ff;
     color:#2b6cb0;
@@ -114,7 +107,6 @@
     border-radius:5px;
     font-family:Consolas,monospace;
   }
-
   footer{
     text-align:center;
     font-size:13px;
@@ -130,38 +122,30 @@
 </head>
 <body>
 <div class="wrap">
-
   <header>
     <h1>2026-10-23 Kali Git / GitHub 学习手册</h1>
     <p>用户名 Hannam1 · 显示名 Hannam1VM · 仓库 Security-labbb-Hannam1 · 分支 main · Private</p>
   </header>
-
   <!-- 模块一 -->
   <div class="card">
     <h2>模块一 · 环境配置</h2>
-
     <h3>配置提交身份</h3>
     <div class="box multi">git config --global user.name  "Hannam1"
 git config --global user.email "2311347434@qq.com"</div>
     <div class="tip">验证：<code class="inline">git config --list</code> 或 <code class="inline">git config --global -l</code></div>
-
     <h3>生成 SSH 密钥（免密）</h3>
     <div class="box">ssh-keygen -t ed25519 -C "2311347434@qq.com"</div>
     <div class="warn">三个提示<b>全部直接按回车</b>：保存路径 → 密码 → 确认密码，都留空。</div>
-
     <h3>查看公钥 / 测试连接</h3>
     <div class="box">cat ~/.ssh/id_ed25519.pub</div>
     <div class="box">ssh -T git@github.com</div>
     <div class="tip">出现 <code class="inline">Hi Hannam1VM! You've successfully authenticated</code> 即成功。</div>
-
     <h3>设置默认分支名</h3>
     <div class="box">git config --global init.defaultBranch main</div>
   </div>
-
   <!-- 模块二 -->
   <div class="card">
     <h2>模块二 · 本地仓库操作</h2>
-
     <h3>完整初始化流程</h3>
     <div class="box">mkdir -p ~/security-lab && cd ~/security-lab</div>
     <div class="box">echo "# 我的实验记录" &gt; README.md</div>
@@ -170,27 +154,22 @@ git config --global user.email "2311347434@qq.com"</div>
 git commit -m "init: 实验记录仓库"</div>
     <div class="box">git remote add origin git@github.com:Hannam1VM/Security-labbb-Hannam1.git</div>
     <div class="box">git push -u origin main</div>
-
     <h3>日常三条命令</h3>
     <div class="box multi">git add .
 git commit -m "描述这次做了什么"
 git push</div>
-
     <h3>状态与查看</h3>
     <div class="box multi">git status          # 看当前改动
 git log --oneline   # 看提交历史
 git remote -v       # 查看远程地址
 git branch -M main  # 把当前分支改名为 main</div>
-
     <h3>同步远程</h3>
     <div class="box multi">git pull              # 已关联分支时直接用
 git pull origin main  # 首次或未关联时用</div>
   </div>
-
   <!-- 模块三 -->
   <div class="card">
     <h2>模块三 · 上传与下载完整流程</h2>
-
     <h3>场景 A：Kali 修改后上传 GitHub</h3>
     <div class="box multi">cd ~/security-lab
 git status
@@ -198,20 +177,16 @@ git add .
 git commit -m "更新实验记录"
 git push</div>
     <div class="tip">出现 <code class="inline">main -&gt; main</code> 即成功，网页刷新可见。</div>
-
     <h3>场景 B：网页改动后 Kali 同步</h3>
     <div class="box multi">cd ~/security-lab
 git pull</div>
-
     <h3>场景 C：新机器完整克隆</h3>
     <div class="box multi">git clone git@github.com:Hannam1VM/Security-labbb-Hannam1.git
 cd Security-labbb-Hannam1</div>
-
     <h3>场景 D：只下载单个文件</h3>
     <div class="box">wget https://raw.githubusercontent.com/Hannam1VM/Security-labbb-Hannam1/main/README.md</div>
     <div class="tip">raw 地址格式：<code class="inline">raw.githubusercontent.com/用户名/仓库名/分支名/文件路径</code></div>
   </div>
-
   <!-- 速查表 -->
   <div class="card">
     <h2>命令速查表</h2>
@@ -230,7 +205,6 @@ cd Security-labbb-Hannam1</div>
       <tr><td>克隆</td><td>git clone 地址</td><td>完整下载仓库</td></tr>
     </table>
   </div>
-
   <!-- 报错 -->
   <div class="card">
     <h2>常见报错速查</h2>
@@ -244,9 +218,101 @@ cd Security-labbb-Hannam1</div>
       <tr><td>Passphrases do not match</td><td>两次密码不一致</td><td>留空直接回车</td></tr>
     </table>
   </div>
+  <!-- 模块四：本次实操全流程（新增） -->
+  <div class="card">
+    <h2>模块四 · 本次实操：从链接到拉起的完整流程</h2>
+    <p style="font-size:14px;color:#5a6a88;margin-top:0;">
+      本模块记录 2026-10-23 在 Kali 下，将仓库从 root 迁到 lee 用户、
+      重建 SSH 认证、并成功 <code class="inline">git pull</code> 的真实操作链路。
+    </p>
 
+    <h3>① 迁移目录归属（root → lee）</h3>
+    <div class="box multi">sudo cp -r /root/security-lab /home/lee/
+sudo chown -R lee:lee /home/lee/security-lab</div>
+    <div class="tip">
+      <code class="inline">cp -r</code> 会连 <code class="inline">.git</code> 一起复制，
+      所以复制过去本身就是完整可用的仓库，远程地址不丢。
+    </div>
+    <div class="warn">
+      复制不会影响“能否拉取”，但会变成<b>两份独立副本</b>：
+      root 那份 pull 了，lee 这份不会自动同步，反之亦然。
+    </div>
+
+    <h3>② 确认身份与目录</h3>
+    <div class="box multi">whoami                 # 确认为 lee
+cd ~/security-lab
+pwd                    # /home/lee/security-lab</div>
+    <div class="warn">
+      提示符已是 <code class="inline">(lee㉿192)</code> 时，<b>不要再执行</b>
+      <code class="inline">su - lee</code>——自己切自己会“身份验证失败”，纯属多余。
+    </div>
+
+    <h3>③ 首次连接 GitHub：指纹确认</h3>
+    <div class="box multi">git pull
+# 提示：Are you sure you want to continue connecting (yes/no/[fingerprint])?
+yes</div>
+    <div class="warn">
+      这一步<b>必须输完整的 <code class="inline">yes</code></b>，只按 <code class="inline">y</code> 回车无效；
+      此处 <code class="inline">Ctrl+X</code> 也不生效，退出请用 <code class="inline">Ctrl+C</code>。
+    </div>
+    <div class="tip">
+      确认后会出现
+      <code class="inline">Warning: Permanently added 'github.com' (ED25519) to the list of known hosts.</code>
+      指纹确认即完成。
+    </div>
+
+    <h3>④ 排查认证失败：Permission denied (publickey)</h3>
+    <div class="box multi">ls -la ~/.ssh                  # 检查 lee 是否有密钥
+cat ~/.ssh/id_ed25519.pub      # 查看公钥内容</div>
+    <div class="tip">本次 lee 用户下无可用密钥，需重新生成并绑定 GitHub。</div>
+
+    <h3>⑤ 为 lee 生成 SSH 密钥</h3>
+    <div class="box">ssh-keygen -t ed25519 -C "Nicky@lieenten"</div>
+    <div class="warn">三个提示<b>全部直接回车</b>：保存路径 → 密码 → 确认密码，均留空。</div>
+    <div class="box multi">cat ~/.ssh/id_ed25519.pub
+# ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIMAWUe9dbX0Fye8tp9C+9mY3FV+jd4ZCU1FXPF7zx/Z5 Nicky@lieenten</div>
+
+    <h3>⑥ 把公钥绑定到 GitHub 账号</h3>
+    <table>
+      <tr><th>步骤</th><th>操作</th></tr>
+      <tr><td>1</td><td>登录 GitHub → 右上角头像 → Settings</td></tr>
+      <tr><td>2</td><td>左侧菜单 → SSH and GPG keys</td></tr>
+      <tr><td>3</td><td>New SSH key</td></tr>
+      <tr><td>4</td><td>Title 填 <code class="inline">lee-kali</code>，Key type 选 Authentication Key</td></tr>
+      <tr><td>5</td><td>Key 框粘贴整行公钥（含结尾注释）→ Add SSH key</td></tr>
+    </table>
+
+    <h3>⑦ 测试认证与拉取</h3>
+    <div class="box multi">ssh -T git@github.com
+# Hi Hannam1VM! You've successfully authenticated, but GitHub does not provide shell access.
+
+cd ~/security-lab
+git pull
+# 已经是最新的。</div>
+    <div class="tip">
+      <code class="inline">Hi Hannam1VM!</code> 对应的是 <b>GitHub 账号名</b>，不是系统用户名 lee，属正常现象；
+      <code class="inline">does not provide shell access</code> 也是正常提示，不算失败。
+    </div>
+
+    <h3>⑧ 权限检查（SSH 对权限敏感）</h3>
+    <div class="box multi">ls -l ~/.ssh/id_ed25519*
+# -rw-------  id_ed25519      ← 600，私钥仅本人可读
+# -rw-r--r--  id_ed25519.pub  ← 644</div>
+    <div class="box">chmod 600 ~/.ssh/id_ed25519   # 权限不对时修正</div>
+
+    <h3>⑨ 在浏览器中打开 HTML 文档</h3>
+    <div class="box">firefox ~/security-lab/EXPERIMENT_LOG/*.HTML</div>
+    <div class="warn">
+      若以普通用户打开 <code class="inline">/root/…</code> 下的文件，会报
+      <code class="inline">Access to the file was denied</code>——因为 <code class="inline">/root</code> 为 700 权限。
+      迁移到 lee 家目录后即可正常访问。
+    </div>
+    <div class="tip">
+      可用 <code class="inline">mv</code> 把中文长文件名改为简短英文，
+      如 <code class="inline">git20261023_kali.html</code>，后续打开更方便。
+    </div>
+  </div>
   <footer>2026-10-23 · 整理自本次实操全过程 · 保存后浏览器打开即可</footer>
-
 </div>
 </body>
 </html>
